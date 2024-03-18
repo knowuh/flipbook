@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload and Generate PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <style>
+      body, input, button  {
+        font-family: Helvetica,  Arial, sans-serif;
+        font-size: 2vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin: 0.5em;
+      }
+
+      #output {
+        padding: 0.5em;
+        font-size: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <input type="file" id="imageInput" multiple accept="image/png" />
+      <button onclick="generatePDF()">Generate PDF</button>
+    </div>
+    <script src="./generate-pdf.js"></script>
+    <div id="output"></div>
+</body>
+</html>
