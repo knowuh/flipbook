@@ -23,6 +23,8 @@
   <body>
     <div>
       <input type="file" id="imageInput" multiple accept="image/png" />
+      Rows: <input type="number" id="rowsInput" min='3' max="10" step="1" value="6"/>
+      handle fraction: <input type="number" id="thumbRatio" min='0.1' max="0.75" step=".05" value="0.3"/>
       <button onclick="generatePDF()">Generate PDF</button>
     </div>
     <script src="./generate-pdf.js"></script>

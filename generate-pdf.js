@@ -4,12 +4,22 @@ function setMessage(message) {
 }
 function generatePDF() {
   const input = document.getElementById('imageInput');
-  const files = input.files;
-  console.log(files);
-  if (files.length < 2 ) {
-      alert('You must upload at least 2 png files');
-      return;
+  const filenameSort = (a,b) => {
+      if(a.name < b.name) { return -1 }
+      if(a.name > b.name) { return 1 }
+      return 0;
   }
+
+  const rowsInput = document.getElementById('rowsInput').value;
+  const thumbRatio = document.getElementById('thumbRatio').value;
+
+  if (input.files.length < 2 ) {
+    alert('You must upload at least 2 png files');
+    return;
+  }
+
+  const files = Array.from(input.files).sort(filenameSort);
+
   const pdf = new jspdf.jsPDF({unit: "in"});
   pdf.setFontSize(9);
   pdf.setLineWidth(0.005);
@@ -27,12 +37,25 @@ function generatePDF() {
               const margin = 0.5;
               const marginX = 0.0;
               const marginY = 0.0;
-              const numRows = 5;
+              const numRows = 7;
               const imgHeight = 10/numRows - marginY;
               const imgWidth = imgHeight * aratio;
-              const offWidth = imgWidth * 0.5;
-              const xPosition = margin + offWidth + (fileIndex % 2) * (imgWidth + marginX + offWidth);
-              const yPosition = margin + Math.floor(fileIndex % 10 / 2) * (imgHeight + marginY);
+              const offWidth = imgWidth * 0.3;
+
+              const frameWidth = imgWidth + offWidth;
+              const numCols = Math.floor((8.5 - 2 * margin) / frameWidth);
+
+              const xPosition =
+                 margin +
+                 offWidth +
+                 (fileIndex % numCols) * (imgWidth + marginX + offWidth);
+
+              const yPosition =
+                margin +
+                Math.floor(
+                  fileIndex % (numCols * numRows)
+                  / numCols
+                ) * (imgHeight + marginY);
 
               pdf.setFontSize(9);
               pdf.setLineWidth(0.005);
@@ -40,7 +63,7 @@ function generatePDF() {
               pdf.addImage(this, 'PNG', xPosition, yPosition, imgWidth, imgHeight);
 
               pdf.text(
-                `${fileIndex+1}`,
+                `${file.name} - ${fileIndex+1}`,
                 xPosition - offWidth + 0.25,
                 yPosition + imgHeight - 0.25,
                 {angle:90}
@@ -110,7 +133,7 @@ function generatePDF() {
                   pdf.save("download.pdf");
                   setMessage("Done saving PDF");
               }
-              if (fileIndex % 10 === 0
+              if (fileIndex % (numCols * numRows) === 0
                 && fileIndex !== 0
                 && fileIndex !== files.length) {
                   pdf.addPage();
