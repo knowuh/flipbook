@@ -37,10 +37,10 @@ function generatePDF() {
               const margin = 0.5;
               const marginX = 0.0;
               const marginY = 0.0;
-              const numRows = 7;
+              const numRows = rowsInput;
               const imgHeight = 10/numRows - marginY;
               const imgWidth = imgHeight * aratio;
-              const offWidth = imgWidth * 0.3;
+              const offWidth = imgWidth * thumbRatio;
 
               const frameWidth = imgWidth + offWidth;
               const numCols = Math.floor((8.5 - 2 * margin) / frameWidth);
