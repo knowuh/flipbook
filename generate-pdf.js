@@ -62,8 +62,10 @@ function generatePDF() {
 
               pdf.addImage(this, 'PNG', xPosition, yPosition, imgWidth, imgHeight);
 
+              // const frameName = `${file.name} - ${fileIndex+1}`;
+              const frameName = `${fileIndex+1}`;
               pdf.text(
-                `${file.name} - ${fileIndex+1}`,
+                frameName,
                 xPosition - offWidth + 0.25,
                 yPosition + imgHeight - 0.25,
                 {angle:90}
