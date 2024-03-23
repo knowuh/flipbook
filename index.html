@@ -42,9 +42,11 @@
       <input type="number" id="frameHeight" min='0.5' max="4" step="0.125" value="1.7"/>
 
       <button class="fullRow" onclick="generatePDF()">Generate PDF</button>
-      <img class="fullRow" src="layout.png" width="600px"/>
+      <div class="fullRow" id="output">
+        <img src="layout.png" width="600px"/>
+      </div>
     </div>
-    <div id="output"></div>
+
     <script src="./generate-pdf.js"></script>
 
 </body>
