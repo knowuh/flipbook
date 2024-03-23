@@ -10,8 +10,8 @@ function generatePDF() {
       return 0;
   }
 
-  const rowsInput = document.getElementById('rowsInput').value;
-  const thumbRatio = document.getElementById('thumbRatio').value;
+  const frameHeight = parseFloat(document.getElementById('frameHeight').value);
+  const leftPadding = parseFloat(document.getElementById('leftPadding').value);
 
   if (input.files.length < 2 ) {
     alert('You must upload at least 2 png files');
@@ -31,24 +31,25 @@ function generatePDF() {
           const img = new Image();
           img.onload = function () {
               // Adjust these values as needed to fit the images on the PDF pages
+              const pageHeight = 10;
               const oWidth = img.width;
               const oHeight = img.height;
               const aratio = oWidth/oHeight;
               const margin = 0.5;
               const marginX = 0.0;
               const marginY = 0.0;
-              const numRows = rowsInput;
-              const imgHeight = 10/numRows - marginY;
+              const numRows = pageHeight/frameHeight;
+              const imgHeight = frameHeight;
               const imgWidth = imgHeight * aratio;
-              const offWidth = imgWidth * thumbRatio;
+              // const leftPadding = leftPadding
 
-              const frameWidth = imgWidth + offWidth;
+              const frameWidth = imgWidth + leftPadding;
               const numCols = Math.floor((8.5 - 2 * margin) / frameWidth);
 
               const xPosition =
                  margin +
-                 offWidth +
-                 (fileIndex % numCols) * (imgWidth + marginX + offWidth);
+                 leftPadding +
+                 (fileIndex % numCols) * (imgWidth + marginX + leftPadding);
 
               const yPosition =
                 margin +
@@ -66,34 +67,34 @@ function generatePDF() {
               const frameName = `${fileIndex+1}`;
               pdf.text(
                 frameName,
-                xPosition - offWidth + 0.25,
+                xPosition - leftPadding + 0.25,
                 yPosition + imgHeight - 0.25,
                 {angle:90}
               );
 
               pdf.line(
-                xPosition - offWidth,
+                xPosition - leftPadding,
                 yPosition,
-                xPosition - offWidth + 0.125,
+                xPosition - leftPadding + 0.125,
                 yPosition
               );
               pdf.line(
-                xPosition - offWidth,
+                xPosition - leftPadding,
                 yPosition,
-                xPosition - offWidth,
+                xPosition - leftPadding,
                 yPosition + 0.125
               );
 
               pdf.line(
-                xPosition - offWidth,
+                xPosition - leftPadding,
                 yPosition + imgHeight,
-                xPosition - offWidth + 0.125,
+                xPosition - leftPadding + 0.125,
                 yPosition + imgHeight
               );
               pdf.line(
-                xPosition - offWidth,
+                xPosition - leftPadding,
                 yPosition + imgHeight,
-                xPosition - offWidth,
+                xPosition - leftPadding,
                 yPosition + imgHeight - 0.125
               );
 
