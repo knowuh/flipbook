@@ -57,15 +57,6 @@ function processImage(img, imgIndex, pdf, frameHeight, leftPadding, totalImages)
   const message = `processing file ${imgIndex + 1} / ${totalImages}`;
   console.log(message);
   setMessage(message);
-
-  // Your original image processing and PDF manipulation logic goes here.
-  // This will include calculations for image placement, resizing, adding to PDF, etc.
-  // Example:
-  // const xPosition = calculateXPosition(...);
-  // const yPosition = calculateYPosition(...);
-  // pdf.addImage(img, 'PNG', xPosition, yPosition, imgWidth, imgHeight);
-
-
   const pageHeight = 10;
   const oWidth = img.width;
   const oHeight = img.height;
