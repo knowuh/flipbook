@@ -16,7 +16,7 @@ async function generatePDF() {
   const images = await loadImages(files);
   
   const pdf = new jspdf.jsPDF({ unit: "in" });
-  processImages(images, pdf, frameHeight, leftPadding);
+  await processImages(images, pdf, frameHeight, leftPadding);
   pdf.save("download.pdf");
   setMessage("Done saving PDF");
 }
@@ -47,14 +47,28 @@ function loadImage(file) {
   });
 }
 
-function processImages(images, pdf, frameHeight, leftPadding) {
-  images.forEach((img, index) => {
-    processImage(img, index, pdf, frameHeight, leftPadding, images.length);
-  });
+async function processImages(images, pdf, frameHeight, leftPadding) {
+  // Wrap the setTimeout in a Promise
+  const processImagePromises = images.map((img, index) => new Promise((resolve) => {
+    setTimeout(() => {
+      processImage(
+        img,
+        index,
+        pdf,
+        frameHeight,
+        leftPadding,
+        images.length
+      );
+      resolve(); // Resolve the promise once the timeout function is called
+    }, 0);
+  }));
+  // Wait for all the promises to resolve
+  await Promise.all(processImagePromises);
 }
 
+
 function processImage(img, imgIndex, pdf, frameHeight, leftPadding, totalImages) {
-  const message = `processing file ${imgIndex + 1} / ${totalImages}`;
+  const message = `processing image ${imgIndex + 1} / ${totalImages}`;
   console.log(message);
   setMessage(message);
   const pageHeight = 10;
