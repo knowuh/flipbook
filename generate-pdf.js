@@ -3,162 +3,162 @@ function setMessage(message) {
   output.innerText = message;
 }
 
-function generatePDF() {
+async function generatePDF() {
   const input = document.getElementById('imageInput');
-  const filenameSort = (a,b) => {
-      if(a.name < b.name) { return -1 }
-      if(a.name > b.name) { return 1 }
-      return 0;
-  }
-
-  const frameHeight = parseFloat(document.getElementById('frameHeight').value);
-  const leftPadding = parseFloat(document.getElementById('leftPadding').value);
-
-  if (input.files.length < 2 ) {
+  if (input.files.length < 2) {
     alert('You must upload at least 2 png files');
     return;
   }
 
+  const frameHeight = parseFloat(document.getElementById('frameHeight').value);
+  const leftPadding = parseFloat(document.getElementById('leftPadding').value);
   const files = Array.from(input.files).sort(filenameSort);
-  const images = [];
+  const images = await loadImages(files);
+  
+  const pdf = new jspdf.jsPDF({ unit: "in" });
+  processImages(images, pdf, frameHeight, leftPadding);
+  pdf.save("download.pdf");
+  setMessage("Done saving PDF");
+}
 
-  const pdf = new jspdf.jsPDF({unit: "in"});
+function filenameSort(a, b) {
+  return a.name.localeCompare(b.name);
+}
+
+async function loadImages(files) {
+  const images = [];
+  for (let file of files) {
+    const img = await loadImage(file);
+    images.push(img);
+  }
+  return images;
+}
+
+function loadImage(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function processImages(images, pdf, frameHeight, leftPadding) {
+  images.forEach((img, index) => {
+    processImage(img, index, pdf, frameHeight, leftPadding, images.length);
+  });
+}
+
+function processImage(img, imgIndex, pdf, frameHeight, leftPadding, totalImages) {
+  const message = `processing file ${imgIndex + 1} / ${totalImages}`;
+  console.log(message);
+  setMessage(message);
+
+  // Your original image processing and PDF manipulation logic goes here.
+  // This will include calculations for image placement, resizing, adding to PDF, etc.
+  // Example:
+  // const xPosition = calculateXPosition(...);
+  // const yPosition = calculateYPosition(...);
+  // pdf.addImage(img, 'PNG', xPosition, yPosition, imgWidth, imgHeight);
+
+
+  const pageHeight = 10;
+  const oWidth = img.width;
+  const oHeight = img.height;
+  const aratio = oWidth/oHeight;
+  const margin = 0.5;
+  const marginX = 0.0;
+  const marginY = 0.0;
+  const numRows = pageHeight/frameHeight;
+  const imgHeight = frameHeight;
+  const imgWidth = imgHeight * aratio;
+
+  const frameWidth = imgWidth + leftPadding;
+  const numCols = Math.floor((8.5 - 2 * margin) / frameWidth);
+
+  const xPosition =
+      margin +
+      leftPadding +
+      (imgIndex % numCols) * (imgWidth + marginX + leftPadding);
+
+  const yPosition =
+    margin +
+    Math.floor(
+      imgIndex % (numCols * numRows)
+      / numCols
+    ) * (imgHeight + marginY);
+
   pdf.setFontSize(9);
   pdf.setLineWidth(0.005);
 
-  let fileIndex = 0;
+  pdf.addImage(img, 'PNG', xPosition, yPosition, imgWidth, imgHeight);
 
-  const loadImage = (file) => {
-    console.log("asking to load an image");
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      console.log("loadImage");
-      const img = new Image();
-      img.onload = function () {
-        images.push(img);
-        if (fileIndex < files.length) {
-          loadImage(files[fileIndex]);
-          fileIndex++;
-        } else {
-          // Process images into PDF
-          processImages();
-        }
-      }
-      img.src = e.target.result;
-    }
-    reader.readAsDataURL(file);
-  };
+  const frameName = `${imgIndex+1}`;
+  pdf.text(
+    frameName,
+    xPosition - leftPadding + 0.25,
+    yPosition + imgHeight - 0.25,
+    {angle:90}
+  );
 
-  loadImage(files[0]);
+  pdf.line(
+    xPosition - leftPadding,
+    yPosition,
+    xPosition - leftPadding + 0.125,
+    yPosition
+  );
+  pdf.line(
+    xPosition - leftPadding,
+    yPosition,
+    xPosition - leftPadding,
+    yPosition + 0.125
+  );
 
-  const processImages = () => {
-    for (let index = 0; index < images.length; index++) {
-      const img = images[index];
-      processImage(img, index);
-    }
-    pdf.save("download.pdf");
-    setMessage("Done saving PDF");
+  pdf.line(
+    xPosition - leftPadding,
+    yPosition + imgHeight,
+    xPosition - leftPadding + 0.125,
+    yPosition + imgHeight
+  );
+  pdf.line(
+    xPosition - leftPadding,
+    yPosition + imgHeight,
+    xPosition - leftPadding,
+    yPosition + imgHeight - 0.125
+  );
+  pdf.line(
+    xPosition + imgWidth,
+    yPosition,
+    xPosition + imgWidth - 0.125,
+    yPosition
+  );
+  pdf.line(
+    xPosition + imgWidth,
+    yPosition,
+    xPosition + imgWidth,
+    yPosition + 0.125
+  );
+  pdf.line(
+    xPosition + imgWidth,
+    yPosition + imgHeight,
+    xPosition + imgWidth - 0.125,
+    yPosition + imgHeight
+  );
+  pdf.line(
+    xPosition + imgWidth,
+    yPosition + imgHeight,
+    xPosition + imgWidth,
+    yPosition + imgHeight - 0.125
+  );
+
+  if (imgIndex % (numCols * numRows) === 0
+    && imgIndex !== 0
+    && imgIndex !== images.length) {
+      pdf.addPage();
   }
 
-  const processImage = (img, imgIndex) => {
-    const message =`processing file ${imgIndex + 1} / ${images.length}`;
-    console.log(message);
-    setMessage(message);
-    const pageHeight = 10;
-    const oWidth = img.width;
-    const oHeight = img.height;
-    const aratio = oWidth/oHeight;
-    const margin = 0.5;
-    const marginX = 0.0;
-    const marginY = 0.0;
-    const numRows = pageHeight/frameHeight;
-    const imgHeight = frameHeight;
-    const imgWidth = imgHeight * aratio;
-
-    const frameWidth = imgWidth + leftPadding;
-    const numCols = Math.floor((8.5 - 2 * margin) / frameWidth);
-
-    const xPosition =
-        margin +
-        leftPadding +
-        (imgIndex % numCols) * (imgWidth + marginX + leftPadding);
-
-    const yPosition =
-      margin +
-      Math.floor(
-        imgIndex % (numCols * numRows)
-        / numCols
-      ) * (imgHeight + marginY);
-
-    pdf.setFontSize(9);
-    pdf.setLineWidth(0.005);
-
-    pdf.addImage(img, 'PNG', xPosition, yPosition, imgWidth, imgHeight);
-
-    // const frameName = `${file.name} - ${imgIndex+1}`;
-    const frameName = `${imgIndex+1}`;
-    pdf.text(
-      frameName,
-      xPosition - leftPadding + 0.25,
-      yPosition + imgHeight - 0.25,
-      {angle:90}
-    );
-
-    pdf.line(
-      xPosition - leftPadding,
-      yPosition,
-      xPosition - leftPadding + 0.125,
-      yPosition
-    );
-    pdf.line(
-      xPosition - leftPadding,
-      yPosition,
-      xPosition - leftPadding,
-      yPosition + 0.125
-    );
-
-    pdf.line(
-      xPosition - leftPadding,
-      yPosition + imgHeight,
-      xPosition - leftPadding + 0.125,
-      yPosition + imgHeight
-    );
-    pdf.line(
-      xPosition - leftPadding,
-      yPosition + imgHeight,
-      xPosition - leftPadding,
-      yPosition + imgHeight - 0.125
-    );
-    pdf.line(
-      xPosition + imgWidth,
-      yPosition,
-      xPosition + imgWidth - 0.125,
-      yPosition
-    );
-    pdf.line(
-      xPosition + imgWidth,
-      yPosition,
-      xPosition + imgWidth,
-      yPosition + 0.125
-    );
-    pdf.line(
-      xPosition + imgWidth,
-      yPosition + imgHeight,
-      xPosition + imgWidth - 0.125,
-      yPosition + imgHeight
-    );
-    pdf.line(
-      xPosition + imgWidth,
-      yPosition + imgHeight,
-      xPosition + imgWidth,
-      yPosition + imgHeight - 0.125
-    );
-
-    if (imgIndex % (numCols * numRows) === 0
-      && imgIndex !== 0
-      && imgIndex !== images.length) {
-        pdf.addPage();
-    }
-
-  };
 };
