@@ -3,36 +3,14 @@
   <head>
     <title>Upload and Generate PDF</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-    <style>
-      body {
-        font-family: Helvetica,  Arial, sans-serif;
-        font-size: 2vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .container {
-        margin: 3em;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
-        row-gap: 1em;
-      }
-
-      .fullRow {
-        grid-column-start: 1;
-        grid-column-end: 3;
-      }
-      #output {
-        padding: 0.5em;
-        font-size: 3rem;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div class="container">
+      <div class="fullRow">
+        <p>This page is for uploading several PNG and JPG files.</p>
+        <p>Have an mp4 file? Upload <a href="video.html">video</a> instead.</p>
+      </div>
       <input class="fullRow" type="file" id="imageInput" multiple accept="image/png" />
 
       <label for="leftPadding">left padding (in):</label>

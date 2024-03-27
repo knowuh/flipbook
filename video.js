@@ -22,7 +22,7 @@ async function processVideo() {
         alert('Invalid frame count. Please enter a number between 1 and 60.');
         return;
     }
-    console.log("Starting conversion ...");
+    setMessage("Starting video conversion");
 
     const pdf = new jspdf.jsPDF({ unit: "in" });
     const images = await extractFramesFromVideo(videoFile, frameCount);
@@ -86,6 +86,6 @@ async function extractFramesFromVideo(videoFile, frameCount) {
         images.push(img);
     }
 
-    console.log("Frames extraction and conversion done.");
+    setMessage("Frame extraction done.");
     return images; // This will be an array of Image objects
 }

@@ -1,5 +1,6 @@
 function setMessage(message) {
   const output = document.getElementById('output');
+  console.log(message);
   output.innerText = message;
 }
 
@@ -70,33 +71,40 @@ async function processImages(images, pdf, frameHeight, leftPadding) {
 }
 
 
+
 function processImage(img, imgIndex, pdf, frameHeight, leftPadding, totalImages) {
   const message = `processing image ${imgIndex + 1} / ${totalImages}`;
-  console.log(message);
   setMessage(message);
   const pageHeight = 10;
   const oWidth = img.width;
   const oHeight = img.height;
-  const aratio = oWidth/oHeight;
+  const aRatio = oWidth/oHeight;
   const margin = 0.5;
   const marginX = 0.0;
   const marginY = 0.0;
   const numRows = Math.floor(pageHeight/frameHeight);
   const imgHeight = frameHeight;
-  const imgWidth = imgHeight * aratio;
+  const imgWidth = imgHeight * aRatio;
 
   const frameWidth = imgWidth + leftPadding;
+  const frameXOffset = frameWidth + marginX;
+  const frameYOffset = imgHeight + marginY;
   const numCols = Math.floor((8.5 - 2 * margin) / frameWidth);
   const numUp = numCols * numRows;
 
-  const xPosition =
-      margin +
-      leftPadding +
-      (imgIndex % numCols) * (imgWidth + marginX + leftPadding);
+  const rolledIndex = imgIndex % numUp;
 
-  const yPosition =
-    margin +
-    (Math.floor(imgIndex/ numCols) % numUp) * (imgHeight + marginY);
+  if (rolledIndex != imgIndex && rolledIndex === 0) {
+    setMessage("adding page");
+    pdf.addPage();
+  }
+  // Calculate the position based on the index
+  const columnIndex = rolledIndex % numCols;
+  const rowIndex = Math.floor(rolledIndex / numCols);
+
+  const xPosition = margin + leftPadding + columnIndex * frameXOffset;
+
+  const yPosition = margin + rowIndex * frameYOffset;
 
   pdf.setFontSize(9);
   pdf.setLineWidth(0.005);
@@ -161,13 +169,5 @@ function processImage(img, imgIndex, pdf, frameHeight, leftPadding, totalImages)
     yPosition + imgHeight - 0.125
   );
 
-
-  console.log("imgIndex: ", imgIndex);
-  console.log("num up: ", numUp);
-  console.log("indx%numUp:", imgIndex % numUp);
-  if ((imgIndex + 1) % numUp=== 0 && imgIndex !== 0) {
-      console.log("--new page--");
-      pdf.addPage();
-  }
   return pdf;
 };
