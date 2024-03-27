@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,10 +9,13 @@
   <body>
     <div class="container">
       <div class="fullRow">
-        <p>This page is for uploading several PNG and JPG files.</p>
-        <p>Have an mp4 file? Upload <a href="video.html">video</a> instead.</p>
+        <p>This page is for uploading MP4 videos.</p>
+        <p>Have several images? Upload <a href="index.html">multiple files</a> instead.</p>
       </div>
-      <input class="fullRow" type="file" id="imageInput" multiple accept="image/png" />
+      <input class="fullRow" type="file" id="videoFile" accept="video/mp4" />
+
+      <label for="frameCount">Number of frames</label>
+      <input type="number" id="frameCount" min="1" max="60" />
 
       <label for="leftPadding">left padding (in):</label>
       <input type="number" id="leftPadding" min='0.25' max="4" step=".5" value="1.5"/>
@@ -19,13 +23,16 @@
       <label for="frameHeight">frame height (in):</label>
       <input type="number" id="frameHeight" min='0.5' max="4" step="0.125" value="1.7"/>
 
-      <button class="fullRow" onclick="generatePDF()">Generate PDF</button>
+      <button class="fullRow" onclick="processVideo()">Generate PDF</button>
       <div class="fullRow" id="output">
         <img src="layout.png" width="600px"/>
       </div>
     </div>
 
     <script src="./generate-pdf.js"></script>
-
+    <script src="./video.js"></script>
 </body>
 </html>
+
+
+
