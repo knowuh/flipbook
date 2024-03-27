@@ -15,8 +15,8 @@ async function generatePDF() {
   const files = Array.from(input.files).sort(filenameSort);
   const images = await loadImages(files);
   
-  const pdf = new jspdf.jsPDF({ unit: "in" });
-  await processImages(images, pdf, frameHeight, leftPadding);
+  let pdf = new jspdf.jsPDF({ unit: "in" });
+  pdf = await processImages(images, pdf, frameHeight, leftPadding);
   pdf.save("download.pdf");
   setMessage("Done saving PDF");
 }
@@ -48,22 +48,25 @@ function loadImage(file) {
 }
 
 async function processImages(images, pdf, frameHeight, leftPadding) {
-  // Wrap the setTimeout in a Promise
-  const processImagePromises = images.map((img, index) => new Promise((resolve) => {
-    setTimeout(() => {
-      processImage(
-        img,
-        index,
-        pdf,
-        frameHeight,
-        leftPadding,
-        images.length
-      );
-      resolve(); // Resolve the promise once the timeout function is called
-    }, 0);
-  }));
-  // Wait for all the promises to resolve
-  await Promise.all(processImagePromises);
+  let updatedPdf = pdf; // Assuming pdf is an object that should be updated
+  for (let i = 0; i < images.length; i++) {
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        // Assuming processImage can now return an updated pdf or status
+        const result = processImage(
+          images[i],
+          i,
+          updatedPdf,
+          frameHeight,
+          leftPadding,
+          images.length
+        );
+        updatedPdf = result; // Update the reference if necessary
+        resolve();
+      }, 0);
+    });
+  }
+  return updatedPdf; // Return the updated PDF object
 }
 
 
@@ -78,12 +81,13 @@ function processImage(img, imgIndex, pdf, frameHeight, leftPadding, totalImages)
   const margin = 0.5;
   const marginX = 0.0;
   const marginY = 0.0;
-  const numRows = pageHeight/frameHeight;
+  const numRows = Math.floor(pageHeight/frameHeight);
   const imgHeight = frameHeight;
   const imgWidth = imgHeight * aratio;
 
   const frameWidth = imgWidth + leftPadding;
   const numCols = Math.floor((8.5 - 2 * margin) / frameWidth);
+  const numUp = numCols * numRows;
 
   const xPosition =
       margin +
@@ -92,10 +96,7 @@ function processImage(img, imgIndex, pdf, frameHeight, leftPadding, totalImages)
 
   const yPosition =
     margin +
-    Math.floor(
-      imgIndex % (numCols * numRows)
-      / numCols
-    ) * (imgHeight + marginY);
+    (Math.floor(imgIndex/ numCols) % numUp) * (imgHeight + marginY);
 
   pdf.setFontSize(9);
   pdf.setLineWidth(0.005);
@@ -160,10 +161,13 @@ function processImage(img, imgIndex, pdf, frameHeight, leftPadding, totalImages)
     yPosition + imgHeight - 0.125
   );
 
-  if (imgIndex % (numCols * numRows) === 0
-    && imgIndex !== 0
-    && imgIndex !== images.length) {
+
+  console.log("imgIndex: ", imgIndex);
+  console.log("num up: ", numUp);
+  console.log("indx%numUp:", imgIndex % numUp);
+  if ((imgIndex + 1) % numUp=== 0 && imgIndex !== 0) {
+      console.log("--new page--");
       pdf.addPage();
   }
-
+  return pdf;
 };
