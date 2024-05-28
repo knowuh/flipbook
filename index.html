@@ -1,75 +1,89 @@
-
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Upload and Generate PDF</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  </head>
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VKGLLV2YBH"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<head>
+  <title>Upload and Generate PDF</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+</head>
 
-    gtag('config', 'G-VKGLLV2YBH');
-  </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VKGLLV2YBH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
 
-  <body>
-    <div class="container">
-      <div class="fullRow">
-        <h1>Make a flip book</h1>
-        <h2>from a single MP4 video of your animation</h2>
-        <p>If you have animation still frames to convert, use the <a href="multiple-files.html">multiple PNG file version</a> instead.</p>
+  gtag('config', 'G-VKGLLV2YBH');
+</script>
 
-        <div class="instrcutions">
+<body>
+  <div class="container">
+    <div class="fullRow">
+      <h1><strong>Make a flip book</strong></h1>
+      <h4><strong>from an MP4 video or animation</strong></h2>
+      <p class="small">
+        If you have several still frames to convert, use the
+        <a href="multiple-files.html">
+          multiple PNG file version
+        </a> instead.
+      </p>
+      <div class="instructions">
         <p>
-          This page helps artists and animators make hand-flipped movie books (aka flip books) from animations and videos.These flip books are a great way to share and sell your work. This web page is a free for you to use.
+          This page helps artists and animators create hand-flipped movie books (also known as flip books) from
+          animation and video files. These flip books are a great way to share and sell your work. This web page is
+          <strong>free for you to use</strong>, but if you find this tool helpful,consider making a donation to support
+          its development and maintenance. Thank you!
+        <a href="https://buy.stripe.com/7sI7vg4hX10m1gI3cd" class="stripe-button">
+          <button id="donation">Donate</button>
+        </a>
         </p>
-
-          <p>
-            There are two ways to upload your work. You can upload a single video, or you can upload individual image files. After your movie is uploaded, a PDF file is downloaded from your browser. Its up to you to cut and assemble the final book.
-          </p>
-
-          <div "detailed-instructions">
-            <ol>
-              <li>Use the "Chose File" button to chose your MP4 file</li>
-              <li>Chose how many pages (frames) you want to print</li>
-              <li>Chose your left-hand margin in inches. A large margin can help your book flip more easily, and will ensure that your of your frame will be visible while flipping, but you print fewer frames per PDF sheet.</li>
-              <li>Choose your frame height in inches. The frame width will be scaled according to the aspect ratio of your video.</li>
-              <li>Click on the "Generate PDF" button, and wait for the processing to stop. A PDF will be automatically downloaded to your default download folder.</li>
-            </ol>
-          </div>
-        </div>
       </div>
-      <div class="fullRow" id="output">
-        <img src="layout2.png" width="400px"/>
-      </div>
-      <input class="fullRow" type="file" id="videoFile" accept="video/mp4" />
-
-      <label for="frameCount">Number of frames</label>
-      <input type="number" id="frameCount" min="1" max="60" />
-
-      <label for="leftPadding">left padding (in):</label>
-      <input type="number" id="leftPadding" min='0.25' max="4" step=".5" value="1.5"/>
-
-      <label for="frameHeight">frame height (in):</label>
-      <input type="number" id="frameHeight" min='0.5' max="4" step="0.125" value="1.7"/>
-
-      <button class="fullRow" onclick="processVideo()">Generate PDF</button>
 
     </div>
+    <div class="fullRow">
+      <div class="detailed-instructions">
+      <ol>
+        <li>Use the "<strong>Choose File</strong>" button to choose your <strong>MP4</strong> video file.</li>
+        <li>Choose how many <strong>frames</strong> you want to print.</li>
+        <li>Choose your <strong>left-hand margin</strong> in inches. A large margin can help your book flip more
+          easily and ensure that more of your frame is visible while flipping, but you will print fewer frames per PDF
+          sheet.</li>
+        <li>Choose your <strong>frame height</strong> in inches. The frame width will be scaled according to the
+          aspect ratio of your video.</li>
+        <li>Click on the "<strong>Generate PDF</strong>" button and wait for the processing to complete. A PDF will be
+          automatically downloaded to your default download folder.</li>
+      </ol>
+      <div id="output"/>
+        <img src="layout2.png"/>
+        </div>
+      </div>
+    </div>
 
-    <script src="./generate-pdf.js"></script>
-    <script src="./video.js"></script>
+
+    <label for="videoFile">MP4 Video</label>
+    <input type="file" id="videoFile" accept="video/mp4" />
+
+    <label for="frameCount">Number of frames</label>
+    <input type="number" id="frameCount" min="1" max="60" />
+
+    <label for="leftPadding">left padding (in):</label>
+    <input type="number" id="leftPadding" min='0.25' max="4" step=".5" value="1.5" />
+
+    <label for="frameHeight">frame height (in):</label>
+    <input type="number" id="frameHeight" min='0.5' max="4" step="0.125" value="1.7" />
+
+    <button class="fullRow" onclick="processVideo()">Generate PDF</button>
+
+  </div>
+
+  <script src="./generate-pdf.js"></script>
+  <script src="./video.js"></script>
 </body>
+
 </html>
-
-
-
