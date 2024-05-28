@@ -22,11 +22,10 @@
 
 
   <body>
+    <h1><strong>Make a flip book</strong></h1>
+    <h4><strong>from several image files</strong></h2>
+      <p class="small">If you have a movie (MP4) to convert, use the <a href="index.html">MP4 page</a> instead.</p>
     <div class="container">
-      <div class="fullRow">
-        <h1><strong>Make a flip book</strong></h1>
-        <h4><strong>from several image files</strong></h2>
-        <p class="small">If you have a movie (MP4) to convert, use the <a href="index.html">MP4 page</a> instead.</p>
         <div class="instructions">
           <p>
             This page helps artists and animators create hand-flipped movie books (also known as flip books) from
@@ -38,25 +37,25 @@
           </a>
           </p>
         </div>
-  
-      </div>
-      <div class="fullRow">
-        <div class="detailed-instructions">
-        <ol>
-          <li>Use the "<strong>Choose Files</strong>" button to choose your <strong>image</strong> files. The should have sequential filenames like <code>image_0001.png, etc.</code></li>
-          <li>Choose your <strong>left-hand margin</strong> in inches. A large margin can help your book flip more
-            easily and ensure that more of your frame is visible while flipping, but you will print fewer frames per PDF
-            sheet.</li>
-          <li>Choose your <strong>frame height</strong> in inches. The frame width will be scaled according to the
-            aspect ratio of your video.</li>
-          <li>Click on the "<strong>Generate PDF</strong>" button and wait for the processing to complete. A PDF will be
-            automatically downloaded to your default download folder.</li>
-        </ol>
+
         <div id="output"/>
           <img src="layout2.png"/>
-          </div>
         </div>
-      </div>
+
+        <div class="detailed-instructions">
+          <ol>
+            <li>Use the "<strong>Choose Files</strong>" button to choose your <strong>image</strong> files. The should have sequential filenames like <code>image_0001.png, etc.</code></li>
+            <li>Choose your <strong>left-hand margin</strong> in inches. A large margin can help your book flip more
+              easily and ensure that more of your frame is visible while flipping, but you will print fewer frames per PDF
+              sheet.</li>
+            <li>Choose your <strong>frame height</strong> in inches. The frame width will be scaled according to the
+              aspect ratio of your video.</li>
+            <li>Click on the "<strong>Generate PDF</strong>" button and wait for the processing to complete. A PDF will be
+              automatically downloaded to your default download folder.</li>
+          </ol>
+        </div>
+
+
 
       <label for="imageInput">Files:</label>
       <input type="file" id="imageInput" multiple accept="image/png" />
@@ -66,7 +65,7 @@
 
       <label for="frameHeight">frame height (in):</label>
       <input type="number" id="frameHeight" min='0.5' max="4" step="0.125" value="1.7"/>
-
+      <div></div>
       <button class="fullRow" onclick="generatePDF()">Generate PDF</button>
     </div>
 

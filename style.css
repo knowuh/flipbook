@@ -22,32 +22,32 @@ body {
   margin: 3em;
   margin-top: 0.5em;
   display: grid;
-  grid-template-columns: 1fr 50vw;
-  grid-template-rows: auto;
   row-gap: 1em;
   column-gap: 1.5em;
+  grid-template-columns: 1fr 2fr;
+}
+
+.instructions {
+  grid-column: span 2;
 }
 
 img {
-  max-width: 600px;
-  width: 40vw;
+  width: 100%;
 }
 
 h1,h2,h3,h4  {
   margin-block: 0.1em;
 }
+
 input {
   font-size: 1em;
 }
 
-.fullRow {
-  grid-column-start: 1;
-  grid-column-end: 3;
-}
 
 #output {
+  margin: 0px;
   font-size: 3rem;
-  margin-inline: 20px;
+  justify-self: end;
 }
 
 ol {
@@ -60,8 +60,6 @@ ol {
 }
 
 button,
-input[type="reset"],
-input[type="submit"],
 input[type="button"],
 input::file-selector-button {
   cursor: pointer;
@@ -89,6 +87,7 @@ input::file-selector-button:hover {
   background-color:var(--blue);
   border-color:var(--blue);
 }
+
 button#donation {
   font-size: 0.8em;
   font-weight: 100;
@@ -100,10 +99,8 @@ button#donation {
 .detailed-instructions {
   font-size: 0.7em;
   font-weight: 100;
-  display: flex;
-  flex-direction: row;
   img {
-    margin-inline-start: 10px;
+    margin: 0px;
   }
 }
 strong {
@@ -117,24 +114,19 @@ strong {
   margin-bottom: 0.5em;
 }
 
-.instructions p {
+p {
   line-height: 1.4em;
 }
+
+
 
 label {
   justify-self: end;
 }
 
-@media (max-width: 40rem) {
-  .detailed-instructions {
+@media (max-width: 30em) {
+  .container {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    img {
-      width: 100%;
-      img {
-        margin-inline: 0px;
-      }
-    }
   }
 }
