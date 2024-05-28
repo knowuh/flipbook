@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flip Book PDF Creator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  </head>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VKGLLV2YBH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-VKGLLV2YBH');
+  </script>
+
+
+  <body>
+    <div class="container">
+      <div class="fullRow">
+        <h1>Flip Book Generator (from multiple files)</h1>
+        <div class="instrcutions">
+        <p>This page is for artists and animators to use to
+          create hand-flipped movie books (aka flip books) from their
+          animations and videos. These books can be used to showcase your work. This is a free service. </p>
+
+          <p>There are two ways to upload your work. You can upload a single video, or you can upload individual image files. After your movie is uploaded, a PDF file is downloaded from your browser. Its up to you to cut and assemble the final book.</p>
+
+          <p>
+            This page is for uploading several PNG and JPG files, they must use sequential file names (ie: <code>my_movie_0001.png, my_movie_0002.png, etc.</code>)
+          </p>
+
+          <p>Have an mp4 file? Upload <a href="video.html">video</a> instead.</p>
+        </div>
+      </div>
+      <input class="fullRow" type="file" id="imageInput" multiple accept="image/png" />
+
+      <label for="leftPadding">left padding (in):</label>
+      <input type="number" id="leftPadding" min='0.25' max="4" step=".5" value="1.5"/>
+
+      <label for="frameHeight">frame height (in):</label>
+      <input type="number" id="frameHeight" min='0.5' max="4" step="0.125" value="1.7"/>
+
+      <button class="fullRow" onclick="generatePDF()">Generate PDF</button>
+      <div class="fullRow" id="output">
+        <img src="layout2.png" width="600"/>
+      </div>
+    </div>
+
+    <script src="./generate-pdf.js"></script>
+
+</body>
+</html>
