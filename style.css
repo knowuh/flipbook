@@ -1,27 +1,140 @@
+:root {
+  --bg-light: #E6E3D9;
+  --bg-dark: #57638C;
+  --blue: #0D236B;
+  --orange: #E0AE24;
+  --b-blue: #CAD1E8;
+}
+
 body {
-  font-family: Helvetica,  Arial, sans-serif;
-  font-size: 2vh;
+  font-family: "Urbanist", Helvetica,  Arial, sans-serif;
+  font-weight: 200;
+  font-size: max(12pt, min(20pt, 2.0vw));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: var(--bg-light);
+  color: var(--blue);
 }
 
 .container {
   margin: 3em;
+  margin-top: 0.5em;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 50vw;
   grid-template-rows: auto;
   row-gap: 1em;
+  column-gap: 1.5em;
+}
+
+img {
+  max-width: 600px;
+  width: 40vw;
+}
+
+h1,h2,h3,h4  {
+  margin-block: 0.1em;
 }
 input {
   font-size: 1em;
 }
+
 .fullRow {
   grid-column-start: 1;
   grid-column-end: 3;
 }
+
 #output {
-  padding: 0.5em;
   font-size: 3rem;
+  margin-inline: 20px;
+}
+
+ol {
+    margin: 0px;
+    padding-inline-start: 1em;
+}
+
+.small {
+  font-size: 0.5em;
+}
+
+button,
+input[type="reset"],
+input[type="submit"],
+input[type="button"],
+input::file-selector-button {
+  cursor: pointer;
+  outline: 0;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  font-size: 1rem;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  color: var(--blue);
+  border-color: var(--blue);
+  &:hover {
+    color: var(--orange);
+    background-color:var(--blue);
+    border-color:var(--blue);
+  }
+}
+input::file-selector-button:hover {
+  color: var(--orange);
+  background-color:var(--blue);
+  border-color:var(--blue);
+}
+button#donation {
+  font-size: 0.8em;
+  font-weight: 100;
+  padding: 0.2em;
+  padding-inline: 0.5em;
+  margin-inline: 0.5em;
+}
+
+.detailed-instructions {
+  font-size: 0.7em;
+  font-weight: 100;
+  display: flex;
+  flex-direction: row;
+  img {
+    margin-inline-start: 10px;
+  }
+}
+strong {
+  font-weight: 600;
+}
+
+.detailed-instructions strong {
+  font-weight: 400;
+}
+.detailed-instructions li {
+  margin-bottom: 0.5em;
+}
+
+.instructions p {
+  line-height: 1.4em;
+}
+
+label {
+  justify-self: end;
+}
+
+@media (max-width: 40rem) {
+  .detailed-instructions {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    img {
+      width: 100%;
+      img {
+        margin-inline: 0px;
+      }
+    }
+  }
 }
