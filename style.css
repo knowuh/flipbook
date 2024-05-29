@@ -97,7 +97,7 @@ button#donation {
 }
 
 .detailed-instructions {
-  font-size: 0.7em;
+  font-size: max(9pt, 0.7em);
   font-weight: 100;
   img {
     margin: 0px;
