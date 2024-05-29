@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 
 <head>
-  <title>Upload and Generate PDF</title>
+  <title>Flip book creator (from video)</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="This is a tool that creates PDF documents for printing animated flip books from video files in MP4 format. It is free to use.">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style.css">
@@ -46,7 +47,13 @@
       </p>
     </div>
   <div id="output"/>
-    <img src="layout2.png"/>
+    <picture>
+      <source srcset="./1x/flipbook.webp" type="image/webp" />
+      <img
+        src="./1x/flipbook.png"
+        alt="Annotated photograph of a completed flip book, showing the dimensions of the final project. This image is to help you choose the correct left margin and frame height value."
+      />
+    </picture>
   </div>
   <div class="detailed-instructions">
     <ol>
