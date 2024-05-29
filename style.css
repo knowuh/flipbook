@@ -124,7 +124,7 @@ label {
   justify-self: end;
 }
 
-@media (max-width: 30em) {
+@media (max-width: 480px) {
   .container {
     display: flex;
     flex-direction: column;
