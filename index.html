@@ -5,9 +5,9 @@
   <title>Flip book creator (from video)</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="This is a tool that creates PDF documents for printing animated flip books from video files in MP4 format. It is free to use.">
+  <meta name="description"
+    content="This is a tool that creates PDF documents for printing animated flip books from video files in MP4 format. It is free to use.">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,19 +15,19 @@
     rel="stylesheet">
 </head>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LZ9Y66V750"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-LZ9Y66V750');
-</script>
-
 <body>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LZ9Y66V750"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-LZ9Y66V750');
+  </script>
+
   <h1><strong>Make a flip book</strong></h1>
-  <h4><strong>from an MP4 video or animation</strong></h2>
+  <h4><strong>from an MP4 video or animation</strong></h4>
   <p class="small">
     If you have several still frames to convert, use the
     <a href="multiple-files.html">
@@ -38,57 +38,54 @@
     <div class="instructions">
       <p>
         This page helps artists and animators create hand-flipped movie books (also known as flip books) from
-        animation and video files. Use this form to create a PDF with crop marks and page numbers for your animation frames, and then cut them out. These flip books are a great way to share your work. This web page is
+        animation and video files. Use this form to create a PDF with crop marks and page numbers for your animation
+        frames, and then cut them out. These flip books are a great way to share your work. This web page is
         <strong>free for you to use</strong>, but if you find this tool helpful,consider making a donation to support
         its development and maintenance. Thank you!
-      <a href="https://buy.stripe.com/7sI7vg4hX10m1gI3cd" class="stripe-button">
-        <button id="donation">Donate</button>
-      </a>
+        <a href="https://buy.stripe.com/7sI7vg4hX10m1gI3cd" class="stripe-button">
+          <button id="donation">Donate</button>
+        </a>
       </p>
     </div>
-  <div id="output"/>
+    <div id="output"></div>
     <picture>
       <source srcset="./1x/flipbook.webp" type="image/webp" />
-      <img
-        src="./1x/flipbook.png"
-        alt="Annotated photograph of a completed flip book, showing the dimensions of the final project. This image is to help you choose the correct left margin and frame height value."
-      />
+      <img src="./1x/flipbook.png"
+        alt="Annotated photograph of a completed flip book, showing the dimensions of the final project. This image is to help you choose the correct left margin and frame height value." />
     </picture>
+    <div class="detailed-instructions">
+      <ol>
+        <li>Use the "<strong>Choose File</strong>" button to choose your <strong>MP4</strong> video file.</li>
+        <li>Choose how many <strong>frames</strong> you want to print.</li>
+        <li>Choose your <strong>left-hand margin</strong> in inches. A large margin can help your book flip more
+          easily and ensure that more of your frame is visible while flipping, but you will print fewer frames per PDF
+          sheet.</li>
+        <li>Choose your <strong>frame height</strong> in inches. The frame width will be scaled according to the
+          aspect ratio of your video.</li>
+        <li>Click on the "<strong>Generate PDF</strong>" button and wait for the processing to complete. A PDF will be
+          automatically downloaded to your default download folder. </li>
+        <li>Print and cut along the crop marks</li>
+      </ol>
+    </div>
+
+
+
+    <label for="videoFile">MP4 Video</label>
+    <input type="file" id="videoFile" accept="video/mp4" />
+
+    <label for="frameCount">Number of frames</label>
+    <input type="number" id="frameCount" min="1" max="60" />
+
+    <label for="leftPadding">left padding (in):</label>
+    <input type="number" id="leftPadding" min='0.25' max="4" step=".5" value="1.5" />
+
+    <label for="frameHeight">frame height (in):</label>
+    <input type="number" id="frameHeight" min='0.5' max="4" step="0.125" value="1.7" />
+    <div></div>
+    <button id="generate" onclick="processVideo()">Generate PDF</button>
+
+
   </div>
-  <div class="detailed-instructions">
-    <ol>
-      <li>Use the "<strong>Choose File</strong>" button to choose your <strong>MP4</strong> video file.</li>
-      <li>Choose how many <strong>frames</strong> you want to print.</li>
-      <li>Choose your <strong>left-hand margin</strong> in inches. A large margin can help your book flip more
-        easily and ensure that more of your frame is visible while flipping, but you will print fewer frames per PDF
-        sheet.</li>
-      <li>Choose your <strong>frame height</strong> in inches. The frame width will be scaled according to the
-        aspect ratio of your video.</li>
-      <li>Click on the "<strong>Generate PDF</strong>" button and wait for the processing to complete. A PDF will be
-        automatically downloaded to your default download folder. </li>
-      <li>Print and cut along the crop marks</li>
-    </ol>
-  </div>
-
-
-
-      <label for="videoFile">MP4 Video</label>
-      <input type="file" id="videoFile" accept="video/mp4" />
-
-      <label for="frameCount">Number of frames</label>
-      <input type="number" id="frameCount" min="1" max="60" />
-
-      <label for="leftPadding">left padding (in):</label>
-      <input type="number" id="leftPadding" min='0.25' max="4" step=".5" value="1.5" />
-
-      <label for="frameHeight">frame height (in):</label>
-      <input type="number" id="frameHeight" min='0.5' max="4" step="0.125" value="1.7" />
-      <div></div>
-      <button id="generate" onclick="processVideo()">Generate PDF</button>
-
-
-  </div>
-
   <script src="./generate-pdf.js"></script>
   <script src="./video.js"></script>
 </body>
